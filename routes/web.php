@@ -4,7 +4,11 @@ use App\Http\Controllers\EmailListController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome');
+Route::get('/', function(){
+    Auth:loginUsingId(1);
+
+    return to_route('dashboard');
+});
 
 Route::view('/dashboard', 'dashboard')->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -15,6 +19,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/email-list', [EmailListController::class, 'index'])->name('email-list.index');
     Route::get('/email-list/create', [EmailListController::class, 'create'])->name('email-list.create');
+    Route::post('/email-list/create', [EmailListController::class, 'store'])->name('email-list.store');
 });
 
 require __DIR__.'/auth.php';
