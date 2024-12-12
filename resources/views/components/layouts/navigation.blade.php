@@ -24,10 +24,17 @@
                     </x-nav-link>
 
                     <x-nav-link 
-                        :href="route('template.index')" 
-                        :active="request()->routeIs('template.*')">
+                        :href="route('templates.index')" 
+                        :active="request()->routeIs('templates.*')">
 
                         {{ __('Templates') }}
+                    </x-nav-link>
+
+                    <x-nav-link 
+                        :href="route('campaigns.index')" 
+                        :active="request()->routeIs('campaigns.*')">
+
+                        {{ __('Campaigns') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -92,10 +99,16 @@
             </x-responsive-nav-link>
 
             <x-responsive-nav-link 
-                :href="route('template.index')" 
-                :active="request()->routeIs('template.*')">
+                :href="route('templates.index')" 
+                :active="request()->routeIs('templates.*')">
                 {{ __('Templates') }}
-        </x-responsive-nav-link>
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link 
+                :href="route('campaigns.index')" 
+                :active="request()->routeIs('campaigns.*')">
+                {{ __('Campaigns') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
