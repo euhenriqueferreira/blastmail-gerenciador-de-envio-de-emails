@@ -22,7 +22,7 @@
                         <tr>
                             <x-table.td>{{ __($list->id) }}</x-table.td>
                             <x-table.td>{{ __($list->title) }}</x-table.td>
-                            <x-table.td>{{ __($list->subscribers()->count()) }}</x-table.td>
+                            <x-table.td>{{ __($list->subscribers_count) }}</x-table.td>
                             <x-table.td>
                                 //
                             </x-table.td>
