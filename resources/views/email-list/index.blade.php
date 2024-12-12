@@ -20,11 +20,11 @@
                 <x-slot name="body">
                     @foreach ($emailsList as $list)
                         <tr>
-                            <x-table.td>{{ __($list->id) }}</x-table.td>
+                            <x-table.td class="w-1">{{ __($list->id) }}</x-table.td>
                             <x-table.td>{{ __($list->title) }}</x-table.td>
-                            <x-table.td>{{ __($list->subscribers_count) }}</x-table.td>
-                            <x-table.td>
-                                <x-button.link :href="route('subscribers.index', $list)">Subscribers</x-button.link>
+                            <x-table.td class="w-1">{{ __($list->subscribers_count) }}</x-table.td>
+                            <x-table.td class="w-1">
+                                <x-button.link :href="route('subscribers.index', $list)" secondary>Subscribers</x-button.link>
                             </x-table.td>
                         </tr> 
                     @endforeach

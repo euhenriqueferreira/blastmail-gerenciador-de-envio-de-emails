@@ -20,16 +20,18 @@
             <x-slot name="body">
                 @foreach ($subscribers as $subscriber)
                     <tr>
-                        <x-table.td>{{ __($subscriber->id) }}</x-table.td>
+                        <x-table.td class="w-1">{{ __($subscriber->id) }}</x-table.td>
                         <x-table.td>{{ __($subscriber->name) }}</x-table.td>
                         <x-table.td>{{ __($subscriber->email) }}</x-table.td>
-                        <x-table.td>
+                        <x-table.td class="flex items-center space-x-4 w-1">
                             @unless($subscriber->trashed())
-                                <x-form 
-                                    :action="route('subscribers.destroy', [$emailsList, $subscriber])" delete flat 
-                                    onsubmit="return confirm('{{ __('Are you sure?') }}')">
-                                    <x-button.secondary type="submit">Delete</x-button.secondary>
-                                </x-form>
+                                <div>
+                                    <x-form
+                                        :action="route('subscribers.destroy', [$emailsList, $subscriber])" delete flat
+                                        onsubmit="return confirm('{{ __('Are you sure?') }}')">
+                                        <x-button.secondary type="submit">Delete</x-button.secondary>
+                                    </x-form>
+                                </div>
                             @else
                                 <x-badge danger>{{ __('Deleted') }}</x-badge>
                             @endunless

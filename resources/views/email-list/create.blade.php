@@ -19,9 +19,9 @@
             </div>
 
             <div class="flex items-center space-x-4">
-                <x-button.secondary type="reset">
+                <x-button.link secondary :href="route('email-list.index')">
                     {{ __('Cancel') }}
-                </x-button.secondary>
+                </x-button.link>
                 
                 <x-button type="submit">
                     {{ __('Save') }}
