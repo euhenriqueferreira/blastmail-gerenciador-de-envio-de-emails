@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/email-list/create', [EmailListController::class, 'store'])->name('email-list.store');
     Route::get('/email-list/{emailsList}/subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
     Route::get('/email-list/{emailsList}/subscribers/create', fn()=>'')->name('subscribers.create');
+    Route::delete('/email-list/{emailsList}/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
 });
 
 require __DIR__.'/auth.php';
