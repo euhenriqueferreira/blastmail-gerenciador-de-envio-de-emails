@@ -19,10 +19,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/email-list', [EmailListController::class, 'index'])->name('email-list.index');
+
     Route::get('/email-list/create', [EmailListController::class, 'create'])->name('email-list.create');
-    Route::post('/email-list/create', [EmailListController::class, 'store'])->name('email-list.store');
+    Route::post('/email-list/create', [EmailListController::class, 'store']);
+
     Route::get('/email-list/{emailsList}/subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
-    Route::get('/email-list/{emailsList}/subscribers/create', fn()=>'')->name('subscribers.create');
+
+    Route::get('/email-list/{emailsList}/subscribers/create', [SubscriberController::class, 'create'])->name('subscribers.create');
+    Route::post('/email-list/{emailsList}/subscribers/create', [SubscriberController::class, 'store']);
+
     Route::delete('/email-list/{emailsList}/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
 });
 

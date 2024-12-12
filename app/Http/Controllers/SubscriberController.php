@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EmailList;
 use App\Models\Subscriber;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SubscriberController extends Controller
 {
@@ -25,6 +26,22 @@ class SubscriberController extends Controller
             'showTrash' => $showTrash
         ]);
     }
+
+    public function create(EmailList $emailsList){
+        return view('subscriber.create', compact('emailsList'));
+    }
+
+    public function store(EmailList $emailsList){
+        $data = request()->validate([
+            'name'=>['required', 'string', 'max:255'],
+            'email'=>['required', 'email', 'max:255', Rule::unique('subscribers')->where('email_list_id', $emailsList->id)],
+        ]);
+
+        $emailsList->subscribers()->create($data);
+
+        return to_route('subscribers.index', $emailsList)->with('message', __('Subscriber successfully created!'));
+    }
+
 
     public function destroy(mixed $emailList, Subscriber $subscriber){
         $subscriber->delete();
