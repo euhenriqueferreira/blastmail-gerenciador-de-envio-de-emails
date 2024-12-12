@@ -24,7 +24,7 @@
                             <x-table.td>{{ __($list->title) }}</x-table.td>
                             <x-table.td>{{ __($list->subscribers_count) }}</x-table.td>
                             <x-table.td>
-                                //
+                                <x-link-button :href="route('subscribers.index', $list)">Subscribers</x-link-button>
                             </x-table.td>
                         </tr> 
                     @endforeach
