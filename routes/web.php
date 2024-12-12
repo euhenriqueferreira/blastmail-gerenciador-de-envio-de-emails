@@ -35,6 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('templates', TemplateController::class);
     Route::resource('campaigns', CampaignController::class)->only(['index', 'create', 'destroy']);
     Route::patch('/campaigns/{campaign}/restore', [CampaignController::class, 'restore'])->withTrashed()->name('campaigns.restore');
+    Route::get('/campaigns/create/template', [CampaignController::class, 'create'])->name('campaigns.create.template');
+    Route::get('/campaigns/create/schedule', [CampaignController::class, 'create'])->name('campaigns.create.schedule');
 });
 
 require __DIR__.'/auth.php';

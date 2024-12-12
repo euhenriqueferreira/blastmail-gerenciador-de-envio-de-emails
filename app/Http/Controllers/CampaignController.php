@@ -26,6 +26,10 @@ class CampaignController extends Controller
         ]);
     }
 
+    public function create(){
+        return view('campaigns.create');
+    }
+
 
     public function destroy(Campaign $campaign){
         $campaign->delete();
