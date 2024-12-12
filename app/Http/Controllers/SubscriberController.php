@@ -21,7 +21,8 @@ class SubscriberController extends Controller
                 ->when($search, fn($query) => $query->where('name', 'like', "%$search%"))
                 ->orWhere('email', 'like', "%$search%")
                 ->orWhere('id', '=', $search)
-                ->paginate(),
+                ->paginate()
+                ->appends(compact('search', 'withTrashed')),
             'search' => $search,
             'showTrash' => $showTrash
         ]);
