@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2d154873381535d5d480e5ea1d5ee759",
+    "content-hash": "4f4659a7ee5a4919a8bac9a2ce3cbba5",
     "packages": [
         {
             "name": "brick/math",
@@ -6422,13 +6422,13 @@
             },
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-main": "1.x-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Laravel\\Pail\\PailServiceProvider"
                     ]
+                },
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
                 }
             },
             "autoload": {

@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Campaign;
+use App\Models\Template;
+use App\Models\EmailList;
+use App\Mail\EmailCampaign;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\CampaignStoreRequest;
-use App\Models\Campaign;
-use App\Models\EmailList;
-use App\Models\Template;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Traits\Conditionable;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class CampaignController extends Controller
 {
@@ -73,7 +75,11 @@ class CampaignController extends Controller
         $toRoute = $request->getToRoute();
 
         if($tab == 'schedule'){
-            Campaign::create($data);
+            $campaign = Campaign::create($data);
+
+            foreach ($campaign->emailList->subscribers as $subscriber) {
+                Mail::to($subscriber->email)->send(new EmailCampaign($campaign));
+            }
         }
 
         return $toRoute;
