@@ -1,15 +1,16 @@
 <?php
 
-use App\Http\Controllers\CampaignController;
-use App\Http\Controllers\EmailListController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SubscriberController;
-use App\Http\Controllers\TemplateController;
-use App\Http\Middleware\CampaignCreateSessionControl;
-use App\Mail\EmailCampaign;
 use App\Models\Campaign;
+use App\Mail\EmailCampaign;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\TemplateController;
+use App\Http\Controllers\EmailListController;
+use App\Http\Controllers\SubscriberController;
+use App\Http\Middleware\CampaignCreateSessionControl;
 
 Route::get('/', function(){
     Auth:loginUsingId(1);
@@ -44,6 +45,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/campaigns/create/{tab?}', [CampaignController::class, 'store']);
 
     Route::get('/campaigns/{campaign}/emails', function(Campaign $campaign){
+        foreach ($campaign->emailList->subscribers as $subscriber) {
+            Mail::to($subscriber->email)
+            ->later(
+                $campaign->send_at,
+                new EmailCampaign($campaign),
+            );
+        }
 
         return (new EmailCampaign($campaign))->render();
     });
