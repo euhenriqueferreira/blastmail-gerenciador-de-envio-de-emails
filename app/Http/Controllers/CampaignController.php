@@ -6,10 +6,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CampaignStoreRequest;
 use App\Models\Campaign;
+use App\Models\EmailList;
+use App\Models\Template;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Traits\Conditionable;
 
 class CampaignController extends Controller
 {
+    use Conditionable;
+
     public function index(){
         $search = request()->get('search', null);
         $withTrashed = request()->get('withTrashed', false);
@@ -28,8 +33,12 @@ class CampaignController extends Controller
     }
 
     public function create(string $tab = null){
-        // session()->forget('campaigns::create');
-        return view('campaigns.create', [
+        return view('campaigns.create', array_merge(
+            $this->when(blank($tab), fn() =>  [
+                    'emailLists' => EmailList::select(['id', 'title'])->orderBy('title')->get(),
+                    'templates' => Template::query()->select(['id', 'name'])->orderBy('name')->get(),
+            ], fn() => []),
+            [
             'tab'=> $tab,
             'form'=> match($tab){
                 'template' => '_template',
@@ -46,7 +55,7 @@ class CampaignController extends Controller
                 'track_open' => null,
                 'send_at' => null,
             ])
-        ]);
+        ], ));
     }
 
     public function store(CampaignStoreRequest $request, string $tab = null){
