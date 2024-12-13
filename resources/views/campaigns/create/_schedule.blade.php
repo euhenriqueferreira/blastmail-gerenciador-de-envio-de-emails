@@ -1,13 +1,14 @@
 <div class="flex flex-col gap-4">
     <x-alert success :title="__('Your campaign is ready to be send')"></x-alert>
 
-    <div>
-        <div>De:----@---.com</div>
-        <div>Para: #count de emails do email_list_id</div>
-        <div>Subject: {{ $data['subject'] }}</div>
-        <div>Template: #template</div>
+    <div class="space-y-2">
+        <div>{{ __('From')}}: {{ config('mail.from.address') }}</div>
+        <div>{{ __('To')}}: <x-badge info>{{ $countEmails }} Emails</x-badge></div>
+        <div>{{ __('Subject')}}: {{ $data['subject'] }}</div>
+        <div>{{ __('Template')}}: <x-badge info>{{ $template }}</x-badge></div>
     </div>
-    <hr>
+
+    <hr class="my-3">
 
     <div x-data="{ show : '{{ data_get($data, 'send_when', 'now') }}' }">
         <x-input-label for="name" :value="__('Schedule Delivery')" />
@@ -15,7 +16,6 @@
             <x-input.radio id="send_now" name="send_when" value="now" x-model="show">{{ __('Send now') }}</x-input.radio>
             <x-input.radio id="send_later" name="send_when" value="later" x-model="show">{{ __('Send Later') }}</x-input.radio>
         </div>        
-        <div x-text="show"></div>
         <div x-show="show == 'later'">
             <x-input-label for="name" :value="__('Send at')" />
             <x-input.text id="send_at" class="block mt-1 w-full" type="date" name="send_at" :value="old('send_at', $data['send_at'])" autofocus />
