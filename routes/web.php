@@ -31,11 +31,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/email-list', [EmailListController::class, 'index'])->name('email-list.index');
     Route::get('/email-list/create', [EmailListController::class, 'create'])->name('email-list.create');
     Route::post('/email-list/create', [EmailListController::class, 'store']);
+    Route::delete('/email-list/{emailList}', [EmailListController::class, 'destroy'])->name('email-list.delete');
+    
     Route::get('/email-list/{emailsList}/subscribers', [SubscriberController::class, 'index'])->name('subscribers.index');
     Route::get('/email-list/{emailsList}/subscribers/create', [SubscriberController::class, 'create'])->name('subscribers.create');
     Route::post('/email-list/{emailsList}/subscribers/create', [SubscriberController::class, 'store']);
     Route::delete('/email-list/{emailsList}/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
-    Route::delete('/email-list/{emailList}', [EmailListController::class, 'destroy'])->name('email-list.delete');
     //endregion
     
     Route::resource('templates', TemplateController::class);
