@@ -12,16 +12,15 @@ class ListTest extends TestCase{
     public function test_needs_to_be_authenticated(){
         $this->getJson(route('email-list.index'))->assertUnauthorized();
 
-        $user = User::factory()->create();
-        $this->actingAs($user);
+        $this->login();
 
         $this->get(route('email-list.index'))->assertSuccessful();
     }
 
     public function test_it_should_be_paginate(){
         //Arrange
-        $user = User::factory()->create();
-        $this->actingAs($user);
+        $this->login();
+
         EmailList::factory()->count(40)->create();
 
         //Act
@@ -39,9 +38,8 @@ class ListTest extends TestCase{
 
     public function test_it_should_be_able_to_search_a_list(){
         //Arrange
-        $user = User::factory()->create();
+        $this->login();
 
-        $this->actingAs($user);
         EmailList::factory()->count(10)->create();
         EmailList::factory()->create(['title'=>'Title 1']);
         $emailList = EmailList::factory()->create(['title'=>'Title Testing 2']);
