@@ -1,0 +1,6 @@
+
+Todo:
+  Rotas:
+    - estatisticas: GET /campaigns/{campaign}/statistics
+    - abertos: /campaigns/{campaign}/open
+    - clicados: /campaigns/{campaign}/clicked
