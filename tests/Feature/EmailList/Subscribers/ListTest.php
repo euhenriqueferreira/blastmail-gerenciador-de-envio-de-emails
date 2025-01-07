@@ -38,6 +38,65 @@ it('should be possible to see the entire list of subscribers', function() {
             return true;
         });
 });
-it('should be able to search a subscriber', function() {})->todo();
+
+it('should be able to search a subscriber', function() {
+    $subscribers = Subscriber::factory()->count(5)->create([
+        'email_list_id' => $this->emailList->id
+    ]);
+
+    Subscriber::factory()->create([
+        'email' => 'Joao Gomes',
+        'email' => 'joao@gomes.com',
+        'email_list_id' => $this->emailList->id
+    ]);
+
+    // Filtrar com email
+    get(route('subscribers.index', ['emailsList' => $this->emailList, 'search' => 'joao@g']))
+        ->assertViewHas('subscribers', function($value){
+            expect($value)
+                ->count(1);
+            
+                expect($value)->first()->id->toBe(6);
+
+            return true;
+        });
+
+    // Filtrar com nome
+    get(route('subscribers.index', ['emailsList' => $this->emailList, 'search' => 'gomes']))
+    ->assertViewHas('subscribers', function($value){
+        expect($value)
+            ->count(1);
+        
+            expect($value)->first()->id->toBe(6);
+
+        return true;
+    });
+});
+
+it('should be able to search a subscriber by id', function(){
+    Subscriber::factory()->create([
+        'email' => 'Joao Gomes',
+        'email' => 'joao@gomes.com',
+        'email_list_id' => $this->emailList->id
+    ]);
+
+    Subscriber::factory()->create([
+        'email' => 'Julia Santos',
+        'email' => 'julia@santos.com',
+        'email_list_id' => $this->emailList->id
+    ]);
+
+    // Filtrar com id
+    get(route('subscribers.index', ['emailsList' => $this->emailList, 'search' => 2]))
+    ->assertViewHas('subscribers', function($value){
+        expect($value)
+            ->count(1);
+        
+            expect($value)->first()->id->toBe(2);
+
+        return true;
+    });
+});
+
 it('should be able to show deleted records', function() {})->todo();
 it('should be paginated', function() {})->todo();
