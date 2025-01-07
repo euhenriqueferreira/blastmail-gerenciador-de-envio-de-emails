@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/email-list/{emailsList}/subscribers/create', [SubscriberController::class, 'create'])->name('subscribers.create');
     Route::post('/email-list/{emailsList}/subscribers/create', [SubscriberController::class, 'store']);
     Route::delete('/email-list/{emailsList}/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
+    Route::delete('/email-list/{emailList}', [EmailListController::class, 'destroy'])->name('email-list.delete');
     //endregion
     
     Route::resource('templates', TemplateController::class);
