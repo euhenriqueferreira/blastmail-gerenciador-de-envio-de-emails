@@ -2,6 +2,7 @@
 
 use App\Models\EmailList;
 use App\Models\Subscriber;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 
 use function Pest\Laravel\get;
@@ -98,5 +99,40 @@ it('should be able to search a subscriber by id', function(){
     });
 });
 
-it('should be able to show deleted records', function() {})->todo();
-it('should be paginated', function() {})->todo();
+it('should be able to show deleted records', function() {
+    Subscriber::factory()->create([
+        'deleted_at' => now()
+    ]);
+
+    Subscriber::factory()->create();
+
+    // Filtrar com id
+    get(route('subscribers.index', ['emailsList' => $this->emailList]))
+    ->assertViewHas('subscribers', function($value){
+        expect($value)
+            ->count(1);
+
+        return true;
+    });
+
+    get(route('subscribers.index', ['emailsList' => $this->emailList, 'withTrashed' => 1]))
+    ->assertViewHas('subscribers', function($value){
+        expect($value)
+            ->count(2);
+
+        return true;
+    });
+});
+
+it('should be paginated', function() {
+    Subscriber::factory()->count(30)->create();
+
+    // Filtrar com id
+    get(route('subscribers.index', ['emailsList' => $this->emailList]))
+    ->assertViewHas('subscribers', function($value){
+        expect($value)->count(15);
+        expect($value)->toBeInstanceOf(LengthAwarePaginator::class);
+        return true;
+    });
+
+});
