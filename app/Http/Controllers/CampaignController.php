@@ -36,7 +36,7 @@ class CampaignController extends Controller
     }
 
     public function create(string $tab = null){
-        $data = session()->get('campaigns::create', [
+        $data = session()->get('campaign', [
             'name' => null,
             'subject' => null,
             'email_list_id' => null,

@@ -52,7 +52,7 @@ class CampaignStoreRequest extends FormRequest
         }
 
         // --
-            $session = session('campaigns::create', $map);
+            $session = session('campaign', $map);
             foreach ($session as $key => $value) {
                 $newValue = data_get($map, $key);
                 
@@ -70,13 +70,13 @@ class CampaignStoreRequest extends FormRequest
         }
         
         
-        session()->put('campaigns::create', $session);
+        session()->put('campaign', $session);
 
         return $rules;
     }
 
     public function getData(){
-        $session = session()->get('campaigns::create');
+        $session = session()->get('campaign');
         unset($session['_token']);
         unset($session['send_when']);
         $session['track_click'] = $session['track_click'] ?: false;
