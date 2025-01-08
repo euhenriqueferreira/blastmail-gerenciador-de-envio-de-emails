@@ -45,7 +45,7 @@ class CampaignController extends Controller
             'track_click' => null,
             'track_open' => null,
             'send_at' => null,
-            'send_at' => 'now',
+            'send_when' => 'now',
         ]);
 
         return view('campaigns.create', 

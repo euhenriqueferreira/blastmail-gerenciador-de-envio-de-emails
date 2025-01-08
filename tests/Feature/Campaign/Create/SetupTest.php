@@ -1,18 +1,57 @@
 <?php
 
+use App\Models\EmailList;
+use App\Models\Template;
+
+use function Pest\Laravel\post;
+
 beforeEach(function(){
     login();
 
-    $this->route('campaigns.create');
+    $this->route = route('campaigns.create');
 });
 
-test('when saveing we need to update campaigns::create session to have all the data', function(){
+test('when saving we need to update campaigns::create session to have all the data', function(){
+    EmailList::factory()->create();
+    $template = Template::factory()->create();
+    
+    post($this->route, [
+        'name' => 'First Campaign',
+        'subject' => 'Subject',
+        'email_list_id' => 1,
+        'template_id' => 1,
+        'track_click' => true,
+        'track_open' => true,
+    ]);
 
-})->todo();
+    expect(session()->get('campaigns::create'))
+        ->toBe([
+            'name' => 'First Campaign',
+            'subject' => 'Subject',
+            'email_list_id' => 1,
+            'template_id' => 1,
+            'body' => $template->body,
+            'track_click' => true,
+            'track_open' => true,
+            'send_at' => null,
+            'send_when' => 'now',
+        ]);
+});
 
 test('make sure that when we save the form we will be redirect back to the template tab', function(){
+    EmailList::factory()->create();
+    $template = Template::factory()->create();
+    
+    post($this->route, [
+        'name' => 'First Campaign',
+        'subject' => 'Subject',
+        'email_list_id' => 1,
+        'template_id' => 1,
+        'track_click' => true,
+        'track_open' => true,
+    ])->assertRedirect(route('campaigns.create', ['tab' => 'template']));
 
-})->todo();
+});
 
 test('it should have on the view a list of email lists', function(){
 
