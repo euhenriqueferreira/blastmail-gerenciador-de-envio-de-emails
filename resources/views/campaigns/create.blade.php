@@ -12,8 +12,6 @@
 
             <x-form :action="route('campaigns.create', compact('tab'))" post>
                 @include('campaigns.create.' . $form)
-
-                
     
                 <div class="flex items-center space-x-4">
                     <x-button.link secondary :href="route('campaigns.index')">
